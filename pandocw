@@ -1,0 +1,26 @@
+#! /usr/bin/env sh
+
+if [ "$1" = "README.md" ]; then
+	output="index.html"
+elif [ "$1" = "GOOD/README.md" ]; then
+	output="GOOD/index.html"
+elif [ "$1" = "BAD/README.md" ]; then
+	output="BAD/index.html"
+else
+	output=$(echo "$1" | sed 's|.md|.html|g')
+fi
+
+
+echo "<!DOCTYPE html>" > "$output"
+echo "<html>" >> "$output"
+echo "<head>" >> "$output"
+echo "  <title>Fix your Hidden Services Setup Guide</title>" >> "$output"
+echo "  <link rel=\"stylesheet\" type=\"text/css\" href =\"home.css\" />" >> "$output"
+echo "</head>" >> "$output"
+echo "<body>" >> "$output"
+pandoc $1 >> "$output"
+echo "</body>" >> "$output"
+echo "</html>" >> "$output"
+
+sed -i 's|.md|.html|g' "$output"
+sed -i 's|README.html|index.html|g' "$output"
